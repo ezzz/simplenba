@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "LAC_logo.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

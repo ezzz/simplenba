@@ -5,13 +5,14 @@
 //  Created by Bruno ARENE on 02/11/2022.
 //
 
+
 import SwiftUI
 
 @main
 struct Simple_NBAApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ScoreboardV2View(dayGames: DayGames(preview: false))
         }
     }
 }

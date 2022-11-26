@@ -8,12 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		150764A9291289DB00B81516 /* Simple_NBAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764A8291289DB00B81516 /* Simple_NBAApp.swift */; };
-		150764AB291289DB00B81516 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764AA291289DB00B81516 /* ContentView.swift */; };
+		150764AB291289DB00B81516 /* ScoreboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764AA291289DB00B81516 /* ScoreboardView.swift */; };
 		150764AD291289DF00B81516 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150764AC291289DF00B81516 /* Assets.xcassets */; };
 		150764B0291289DF00B81516 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150764AF291289DF00B81516 /* Preview Assets.xcassets */; };
 		150764BA291289E000B81516 /* Simple_NBATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764B9291289E000B81516 /* Simple_NBATests.swift */; };
 		150764C4291289E000B81516 /* Simple_NBAUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764C3291289E000B81516 /* Simple_NBAUITests.swift */; };
 		150764C6291289E000B81516 /* Simple_NBAUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764C5291289E000B81516 /* Simple_NBAUITestsLaunchTests.swift */; };
+		150764D329128A0E00B81516 /* ScoreboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764D229128A0E00B81516 /* ScoreboardModel.swift */; };
+		150764D529128B2D00B81516 /* scoreboardV2.json in Resources */ = {isa = PBXBuildFile; fileRef = 150764D429128B2C00B81516 /* scoreboardV2.json */; };
+		150764D72912972A00B81516 /* ScoreboardV2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764D62912972A00B81516 /* ScoreboardV2Model.swift */; };
+		151D9B3A2927FDD20006A849 /* live_todayscoreboard_small.json in Resources */ = {isa = PBXBuildFile; fileRef = 151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */; };
+		15551B46292A1261007A9898 /* ScoreboardV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B45292A1261007A9898 /* ScoreboardV2View.swift */; };
+		15551B49292D5E3F007A9898 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B48292D5E3F007A9898 /* GameView.swift */; };
+		15551B4B292E9AC3007A9898 /* GameBoxscoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B4A292E9AC3007A9898 /* GameBoxscoreView.swift */; };
+		15960B7B2917D17100D4034E /* live_todayscoreboard.json in Resources */ = {isa = PBXBuildFile; fileRef = 15960B7A2917D17100D4034E /* live_todayscoreboard.json */; };
+		15960B7D291D657A00D4034E /* BoxscoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15960B7C291D657900D4034E /* BoxscoreModel.swift */; };
+		15960B7F291D65A100D4034E /* boxscore.json in Resources */ = {isa = PBXBuildFile; fileRef = 15960B7E291D65A000D4034E /* boxscore.json */; };
+		15CCF1BD291D79FE00A63095 /* SingleBoxscoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CCF1BC291D79FE00A63095 /* SingleBoxscoreView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +47,7 @@
 /* Begin PBXFileReference section */
 		150764A5291289DB00B81516 /* Simple NBA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple NBA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		150764A8291289DB00B81516 /* Simple_NBAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simple_NBAApp.swift; sourceTree = "<group>"; };
-		150764AA291289DB00B81516 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		150764AA291289DB00B81516 /* ScoreboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardView.swift; sourceTree = "<group>"; };
 		150764AC291289DF00B81516 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		150764AF291289DF00B81516 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		150764B5291289E000B81516 /* Simple NBATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple NBATests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +55,17 @@
 		150764BF291289E000B81516 /* Simple NBAUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple NBAUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		150764C3291289E000B81516 /* Simple_NBAUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simple_NBAUITests.swift; sourceTree = "<group>"; };
 		150764C5291289E000B81516 /* Simple_NBAUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simple_NBAUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		150764D229128A0E00B81516 /* ScoreboardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardModel.swift; sourceTree = "<group>"; };
+		150764D429128B2C00B81516 /* scoreboardV2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scoreboardV2.json; sourceTree = SOURCE_ROOT; };
+		150764D62912972A00B81516 /* ScoreboardV2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardV2Model.swift; sourceTree = "<group>"; };
+		151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = live_todayscoreboard_small.json; sourceTree = "<group>"; };
+		15551B45292A1261007A9898 /* ScoreboardV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardV2View.swift; sourceTree = "<group>"; };
+		15551B48292D5E3F007A9898 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		15551B4A292E9AC3007A9898 /* GameBoxscoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoxscoreView.swift; sourceTree = "<group>"; };
+		15960B7A2917D17100D4034E /* live_todayscoreboard.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = live_todayscoreboard.json; sourceTree = "<group>"; };
+		15960B7C291D657900D4034E /* BoxscoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxscoreModel.swift; sourceTree = "<group>"; };
+		15960B7E291D65A000D4034E /* boxscore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = boxscore.json; sourceTree = "<group>"; };
+		15CCF1BC291D79FE00A63095 /* SingleBoxscoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleBoxscoreView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +116,13 @@
 		150764A7291289DB00B81516 /* Simple NBA */ = {
 			isa = PBXGroup;
 			children = (
+				15551B47292A126D007A9898 /* Views */,
+				15551B44292A0EDD007A9898 /* Models */,
+				150764D429128B2C00B81516 /* scoreboardV2.json */,
+				15960B7A2917D17100D4034E /* live_todayscoreboard.json */,
+				151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */,
+				15960B7E291D65A000D4034E /* boxscore.json */,
 				150764A8291289DB00B81516 /* Simple_NBAApp.swift */,
-				150764AA291289DB00B81516 /* ContentView.swift */,
 				150764AC291289DF00B81516 /* Assets.xcassets */,
 				150764AE291289DF00B81516 /* Preview Content */,
 			);
@@ -125,6 +152,28 @@
 				150764C5291289E000B81516 /* Simple_NBAUITestsLaunchTests.swift */,
 			);
 			path = "Simple NBAUITests";
+			sourceTree = "<group>";
+		};
+		15551B44292A0EDD007A9898 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				15960B7C291D657900D4034E /* BoxscoreModel.swift */,
+				150764D229128A0E00B81516 /* ScoreboardModel.swift */,
+				150764D62912972A00B81516 /* ScoreboardV2Model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		15551B47292A126D007A9898 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				15551B45292A1261007A9898 /* ScoreboardV2View.swift */,
+				150764AA291289DB00B81516 /* ScoreboardView.swift */,
+				15CCF1BC291D79FE00A63095 /* SingleBoxscoreView.swift */,
+				15551B48292D5E3F007A9898 /* GameView.swift */,
+				15551B4A292E9AC3007A9898 /* GameBoxscoreView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,7 +281,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				150764B0291289DF00B81516 /* Preview Assets.xcassets in Resources */,
+				15960B7B2917D17100D4034E /* live_todayscoreboard.json in Resources */,
+				15960B7F291D65A100D4034E /* boxscore.json in Resources */,
 				150764AD291289DF00B81516 /* Assets.xcassets in Resources */,
+				151D9B3A2927FDD20006A849 /* live_todayscoreboard_small.json in Resources */,
+				150764D529128B2D00B81516 /* scoreboardV2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +310,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				150764AB291289DB00B81516 /* ContentView.swift in Sources */,
+				150764D329128A0E00B81516 /* ScoreboardModel.swift in Sources */,
+				15960B7D291D657A00D4034E /* BoxscoreModel.swift in Sources */,
+				150764D72912972A00B81516 /* ScoreboardV2Model.swift in Sources */,
+				15551B46292A1261007A9898 /* ScoreboardV2View.swift in Sources */,
+				15CCF1BD291D79FE00A63095 /* SingleBoxscoreView.swift in Sources */,
+				15551B4B292E9AC3007A9898 /* GameBoxscoreView.swift in Sources */,
+				150764AB291289DB00B81516 /* ScoreboardView.swift in Sources */,
+				15551B49292D5E3F007A9898 /* GameView.swift in Sources */,
 				150764A9291289DB00B81516 /* Simple_NBAApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Simple NBA/Preview Content\"";
+				DEVELOPMENT_TEAM = QMG83DG7YP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -445,6 +506,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Simple NBA/Preview Content\"";
+				DEVELOPMENT_TEAM = QMG83DG7YP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -489,13 +551,16 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezzz.Simple-NBATests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
