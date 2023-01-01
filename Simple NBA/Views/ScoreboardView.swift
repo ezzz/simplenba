@@ -6,7 +6,82 @@
 //
 
 import SwiftUI
+import SwiftUIPager
 /*
+struct ScoreboardView: View {
+    @EnvironmentObject var dayGames: DayGames
+    @State var page = Page.withIndex(2)
+    @State var isPresented: Bool = false
+
+    var body: some View {
+        NavigationView {
+            GeometryReader { proxy in
+                VStack(spacing: 10) {
+                    Pager(page: page,
+                          data: dayGames.availableDays,
+                          id: \.self) {
+                            self.pageView($0)
+                    }
+                    .singlePagination(ratio: 0.5, sensitivity: .high)
+                    .onPageWillChange({ (page) in
+                        print("Page will change to: \(page)")
+                    })
+                    .onPageChanged({ page in
+                        print("Page changed to: \(page)")
+                        dayGames.selectedDay = dayGames.availableDays[page]
+                        /*if page == 1 {
+                            let newData = (1...5).map { data1.first! - $0 }.reversed()
+                            withAnimation {
+                                page1.index += newData.count
+                                data1.insert(contentsOf: newData, at: 0)
+                                isPresented.toggle()
+                            }
+                        } else if page == self.data1.count - 2 {
+                            guard let last = self.data1.last else { return }
+                            let newData = (1...5).map { last + $0 }
+                            withAnimation {
+                                isPresented.toggle()
+                                data1.append(contentsOf: newData)
+                            }
+                        }*/
+                    })
+                    .pagingPriority(.simultaneous)
+                    .preferredItemSize(CGSize(width: proxy.size.width-10, height: proxy.size.height-10))
+                    .itemSpacing(10)
+                    .background(Color.gray.opacity(0.2))
+                    .alert(isPresented: self.$isPresented, content: {
+                        Alert(title: Text("Congratulations!"),
+                              message: Text("Five more elements were appended to your Pager"),
+                              dismissButton: .default(Text("Okay!")))
+                    })
+                }
+                //.navigationBarTitle("Infinite Pagers", displayMode: .inline)
+            }
+        }.navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    func pageView(_ selectedDay: Date) -> some View {
+        ZStack {
+            Rectangle()
+                .fill(Color.yellow)
+            //NavigationLink(destination: Text("Page \(page)")) {
+                Text("Day \(dayGames.extractDate(date: selectedDay, format: "dd-MM-YYYY"))")
+           // }
+        }
+        .cornerRadius(5)
+        .shadow(radius: 5)
+    }
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ScoreboardView()
+            .environmentObject(DayGames(preview: false))
+    }
+}
+
+
 struct ScoreboardView: View {
     
     @ObservedObject var todayGames: TodayGames

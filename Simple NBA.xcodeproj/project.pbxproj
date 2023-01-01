@@ -17,14 +17,24 @@
 		150764D329128A0E00B81516 /* ScoreboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764D229128A0E00B81516 /* ScoreboardModel.swift */; };
 		150764D529128B2D00B81516 /* scoreboardV2.json in Resources */ = {isa = PBXBuildFile; fileRef = 150764D429128B2C00B81516 /* scoreboardV2.json */; };
 		150764D72912972A00B81516 /* ScoreboardV2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150764D62912972A00B81516 /* ScoreboardV2Model.swift */; };
+		1508D56D29618DCC00DFA783 /* ScorePlayByPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1508D56C29618DCB00DFA783 /* ScorePlayByPlayView.swift */; };
 		151D9B3A2927FDD20006A849 /* live_todayscoreboard_small.json in Resources */ = {isa = PBXBuildFile; fileRef = 151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */; };
+		15345E422955986C000A30B3 /* ScoreboardV3View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15345E412955986C000A30B3 /* ScoreboardV3View.swift */; };
+		15345E44295598D0000A30B3 /* GameListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15345E43295598D0000A30B3 /* GameListItemView.swift */; };
 		15551B46292A1261007A9898 /* ScoreboardV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B45292A1261007A9898 /* ScoreboardV2View.swift */; };
-		15551B49292D5E3F007A9898 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B48292D5E3F007A9898 /* GameView.swift */; };
-		15551B4B292E9AC3007A9898 /* GameBoxscoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B4A292E9AC3007A9898 /* GameBoxscoreView.swift */; };
+		15551B49292D5E3F007A9898 /* GameDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B48292D5E3F007A9898 /* GameDetailsView.swift */; };
+		157E512A29321671007BD3B9 /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = 157E512929321671007BD3B9 /* SwiftUIPager */; };
+		157E512C29321740007BD3B9 /* TestInfiniteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E512B29321740007BD3B9 /* TestInfiniteView.swift */; };
+		157E512E29334E58007BD3B9 /* AppMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E512D29334E58007BD3B9 /* AppMainView.swift */; };
+		159513A029392ED300C5C44B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1595139F29392ED300C5C44B /* Colors.xcassets */; };
+		159513A3293A7B6400C5C44B /* StandingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159513A2293A7B6400C5C44B /* StandingsView.swift */; };
 		15960B7B2917D17100D4034E /* live_todayscoreboard.json in Resources */ = {isa = PBXBuildFile; fileRef = 15960B7A2917D17100D4034E /* live_todayscoreboard.json */; };
 		15960B7D291D657A00D4034E /* BoxscoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15960B7C291D657900D4034E /* BoxscoreModel.swift */; };
 		15960B7F291D65A100D4034E /* boxscore.json in Resources */ = {isa = PBXBuildFile; fileRef = 15960B7E291D65A000D4034E /* boxscore.json */; };
-		15CCF1BD291D79FE00A63095 /* SingleBoxscoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CCF1BC291D79FE00A63095 /* SingleBoxscoreView.swift */; };
+		15CCC5812943A577007E025E /* DemoChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CCC5802943A577007E025E /* DemoChartsView.swift */; };
+		15CCF1BD291D79FE00A63095 /* BoxscoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CCF1BC291D79FE00A63095 /* BoxscoreView.swift */; };
+		15CF31D5295E0A130065072C /* ScoreGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CF31D4295E0A120065072C /* ScoreGraphView.swift */; };
+		15E94B08293FB494002CE524 /* PlayByPlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E94B07293FB494002CE524 /* PlayByPlayModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,16 +66,26 @@
 		150764C3291289E000B81516 /* Simple_NBAUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simple_NBAUITests.swift; sourceTree = "<group>"; };
 		150764C5291289E000B81516 /* Simple_NBAUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simple_NBAUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		150764D229128A0E00B81516 /* ScoreboardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardModel.swift; sourceTree = "<group>"; };
-		150764D429128B2C00B81516 /* scoreboardV2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scoreboardV2.json; sourceTree = SOURCE_ROOT; };
+		150764D429128B2C00B81516 /* scoreboardV2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = scoreboardV2.json; path = "Simple NBA/Data/scoreboardV2.json"; sourceTree = SOURCE_ROOT; };
 		150764D62912972A00B81516 /* ScoreboardV2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardV2Model.swift; sourceTree = "<group>"; };
+		1508D56C29618DCB00DFA783 /* ScorePlayByPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorePlayByPlayView.swift; sourceTree = "<group>"; };
 		151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = live_todayscoreboard_small.json; sourceTree = "<group>"; };
+		15345E412955986C000A30B3 /* ScoreboardV3View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardV3View.swift; sourceTree = "<group>"; };
+		15345E43295598D0000A30B3 /* GameListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListItemView.swift; sourceTree = "<group>"; };
 		15551B45292A1261007A9898 /* ScoreboardV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardV2View.swift; sourceTree = "<group>"; };
-		15551B48292D5E3F007A9898 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
-		15551B4A292E9AC3007A9898 /* GameBoxscoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoxscoreView.swift; sourceTree = "<group>"; };
+		15551B48292D5E3F007A9898 /* GameDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsView.swift; sourceTree = "<group>"; };
+		157E512B29321740007BD3B9 /* TestInfiniteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInfiniteView.swift; sourceTree = "<group>"; };
+		157E512D29334E58007BD3B9 /* AppMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMainView.swift; sourceTree = "<group>"; };
+		1595139F29392ED300C5C44B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		159513A2293A7B6400C5C44B /* StandingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsView.swift; sourceTree = "<group>"; };
 		15960B7A2917D17100D4034E /* live_todayscoreboard.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = live_todayscoreboard.json; sourceTree = "<group>"; };
 		15960B7C291D657900D4034E /* BoxscoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxscoreModel.swift; sourceTree = "<group>"; };
 		15960B7E291D65A000D4034E /* boxscore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = boxscore.json; sourceTree = "<group>"; };
-		15CCF1BC291D79FE00A63095 /* SingleBoxscoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleBoxscoreView.swift; sourceTree = "<group>"; };
+		15CCC5802943A577007E025E /* DemoChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoChartsView.swift; sourceTree = "<group>"; };
+		15CCF1BC291D79FE00A63095 /* BoxscoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxscoreView.swift; sourceTree = "<group>"; };
+		15CF31D4295E0A120065072C /* ScoreGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreGraphView.swift; sourceTree = "<group>"; };
+		15E94B07293FB494002CE524 /* PlayByPlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayByPlayModel.swift; sourceTree = "<group>"; };
+		15E94B09293FB50E002CE524 /* playbyplay.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = playbyplay.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				157E512A29321671007BD3B9 /* SwiftUIPager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,14 +137,12 @@
 		150764A7291289DB00B81516 /* Simple NBA */ = {
 			isa = PBXGroup;
 			children = (
+				150764A8291289DB00B81516 /* Simple_NBAApp.swift */,
 				15551B47292A126D007A9898 /* Views */,
 				15551B44292A0EDD007A9898 /* Models */,
-				150764D429128B2C00B81516 /* scoreboardV2.json */,
-				15960B7A2917D17100D4034E /* live_todayscoreboard.json */,
-				151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */,
-				15960B7E291D65A000D4034E /* boxscore.json */,
-				150764A8291289DB00B81516 /* Simple_NBAApp.swift */,
+				159513A12939315600C5C44B /* Data */,
 				150764AC291289DF00B81516 /* Assets.xcassets */,
+				1595139F29392ED300C5C44B /* Colors.xcassets */,
 				150764AE291289DF00B81516 /* Preview Content */,
 			);
 			path = "Simple NBA";
@@ -160,6 +179,7 @@
 				15960B7C291D657900D4034E /* BoxscoreModel.swift */,
 				150764D229128A0E00B81516 /* ScoreboardModel.swift */,
 				150764D62912972A00B81516 /* ScoreboardV2Model.swift */,
+				15E94B07293FB494002CE524 /* PlayByPlayModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -167,13 +187,32 @@
 		15551B47292A126D007A9898 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				157E512D29334E58007BD3B9 /* AppMainView.swift */,
+				15345E412955986C000A30B3 /* ScoreboardV3View.swift */,
 				15551B45292A1261007A9898 /* ScoreboardV2View.swift */,
 				150764AA291289DB00B81516 /* ScoreboardView.swift */,
-				15CCF1BC291D79FE00A63095 /* SingleBoxscoreView.swift */,
-				15551B48292D5E3F007A9898 /* GameView.swift */,
-				15551B4A292E9AC3007A9898 /* GameBoxscoreView.swift */,
+				15345E43295598D0000A30B3 /* GameListItemView.swift */,
+				15CCF1BC291D79FE00A63095 /* BoxscoreView.swift */,
+				15551B48292D5E3F007A9898 /* GameDetailsView.swift */,
+				157E512B29321740007BD3B9 /* TestInfiniteView.swift */,
+				159513A2293A7B6400C5C44B /* StandingsView.swift */,
+				15CCC5802943A577007E025E /* DemoChartsView.swift */,
+				15CF31D4295E0A120065072C /* ScoreGraphView.swift */,
+				1508D56C29618DCB00DFA783 /* ScorePlayByPlayView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		159513A12939315600C5C44B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				15960B7E291D65A000D4034E /* boxscore.json */,
+				151D9B392927FDD20006A849 /* live_todayscoreboard_small.json */,
+				15960B7A2917D17100D4034E /* live_todayscoreboard.json */,
+				150764D429128B2C00B81516 /* scoreboardV2.json */,
+				15E94B09293FB50E002CE524 /* playbyplay.json */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +231,9 @@
 			dependencies = (
 			);
 			name = "Simple NBA";
+			packageProductDependencies = (
+				157E512929321671007BD3B9 /* SwiftUIPager */,
+			);
 			productName = "Simple NBA";
 			productReference = 150764A5291289DB00B81516 /* Simple NBA.app */;
 			productType = "com.apple.product-type.application";
@@ -264,6 +306,9 @@
 				Base,
 			);
 			mainGroup = 1507649C291289DA00B81516;
+			packageReferences = (
+				157E512829321671007BD3B9 /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
+			);
 			productRefGroup = 150764A6291289DB00B81516 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -286,6 +331,7 @@
 				150764AD291289DF00B81516 /* Assets.xcassets in Resources */,
 				151D9B3A2927FDD20006A849 /* live_todayscoreboard_small.json in Resources */,
 				150764D529128B2D00B81516 /* scoreboardV2.json in Resources */,
+				159513A029392ED300C5C44B /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,14 +356,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1508D56D29618DCC00DFA783 /* ScorePlayByPlayView.swift in Sources */,
+				15E94B08293FB494002CE524 /* PlayByPlayModel.swift in Sources */,
+				15345E44295598D0000A30B3 /* GameListItemView.swift in Sources */,
+				15CCC5812943A577007E025E /* DemoChartsView.swift in Sources */,
 				150764D329128A0E00B81516 /* ScoreboardModel.swift in Sources */,
 				15960B7D291D657A00D4034E /* BoxscoreModel.swift in Sources */,
+				15345E422955986C000A30B3 /* ScoreboardV3View.swift in Sources */,
+				157E512E29334E58007BD3B9 /* AppMainView.swift in Sources */,
 				150764D72912972A00B81516 /* ScoreboardV2Model.swift in Sources */,
 				15551B46292A1261007A9898 /* ScoreboardV2View.swift in Sources */,
-				15CCF1BD291D79FE00A63095 /* SingleBoxscoreView.swift in Sources */,
-				15551B4B292E9AC3007A9898 /* GameBoxscoreView.swift in Sources */,
+				15CCF1BD291D79FE00A63095 /* BoxscoreView.swift in Sources */,
+				157E512C29321740007BD3B9 /* TestInfiniteView.swift in Sources */,
+				15CF31D5295E0A130065072C /* ScoreGraphView.swift in Sources */,
+				159513A3293A7B6400C5C44B /* StandingsView.swift in Sources */,
 				150764AB291289DB00B81516 /* ScoreboardView.swift in Sources */,
-				15551B49292D5E3F007A9898 /* GameView.swift in Sources */,
+				15551B49292D5E3F007A9898 /* GameDetailsView.swift in Sources */,
 				150764A9291289DB00B81516 /* Simple_NBAApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,10 +528,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Simple NBA/Preview Content\"";
-				DEVELOPMENT_TEAM = QMG83DG7YP;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NCJNK4ZZ54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -490,8 +546,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ezzz.Simple-NBA";
+				PRODUCT_BUNDLE_IDENTIFIER = hfrplus.simplenba;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Hfrplus for ezzz v2";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -503,10 +561,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Simple NBA/Preview Content\"";
-				DEVELOPMENT_TEAM = QMG83DG7YP;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NCJNK4ZZ54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -519,8 +579,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ezzz.Simple-NBA";
+				PRODUCT_BUNDLE_IDENTIFIER = hfrplus.simplenba;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Hfrplus for ezzz v2";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -534,6 +596,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QMG83DG7YP;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -552,15 +615,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NCJNK4ZZ54;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ezzz.Simple-NBATests";
+				PRODUCT_BUNDLE_IDENTIFIER = hfrplus.simplenba;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Hfrplus for ezzz v2";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -574,6 +640,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QMG83DG7YP;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezzz.Simple-NBAUITests";
@@ -591,6 +658,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QMG83DG7YP;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ezzz.Simple-NBAUITests";
@@ -642,6 +710,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		157E512829321671007BD3B9 /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		157E512929321671007BD3B9 /* SwiftUIPager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 157E512829321671007BD3B9 /* XCRemoteSwiftPackageReference "SwiftUIPager" */;
+			productName = SwiftUIPager;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1507649D291289DA00B81516 /* Project object */;
 }

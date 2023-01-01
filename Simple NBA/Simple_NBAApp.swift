@@ -10,9 +10,12 @@ import SwiftUI
 
 @main
 struct Simple_NBAApp: App {
+    @StateObject private var scoreData = DayGames(preview: false)
+    
     var body: some Scene {
         WindowGroup {
-            ScoreboardV2View(dayGames: DayGames(preview: false))
+            AppMainView()
+                .environmentObject(scoreData)
         }
     }
 }

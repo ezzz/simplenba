@@ -24,6 +24,17 @@ final class Simple_NBATests: XCTestCase {
         // Any test you write for XCTest can be annotated as throws and async.
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        
+        let mPlay = PlayByPlay(gameId: "0022200161", preview: false)
+        _ = XCTWaiter.wait(for: [expectation(description: "Wait for 10 seconds")], timeout: 3.0)
+        print ("Data loaded : \(mPlay.gameId) actions \(mPlay.diffTable.count)")
+        XCTAssert(mPlay.dataIsLoaded == true)
+        XCTAssert(mPlay.timeArray.count > 30)
+        for dt in mPlay.timeArray {
+            let diff = mPlay.diffTable[dt]!
+            print("> dt \(dt) -> \(diff)")// diff \(mPlay.diffTable[dt])")
+            
+        }
     }
 
     func testPerformanceExample() throws {

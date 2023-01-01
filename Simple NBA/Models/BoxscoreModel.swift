@@ -31,6 +31,8 @@ struct jTeamBoxScore: Decodable {
 
 struct jPlayerBoxscore: Decodable {
     var status: String
+    var notPlayingReason: String?
+    var notPlayingDescription: String?
     var order: Int
     var personId: Int
     var jerseyNum: String
@@ -152,5 +154,9 @@ class BoxscoreModel: ObservableObject {
             }
             task.resume()
         }
+    }
+    
+    func getMinutesPretty(minutes: String) -> String {
+        return String(minutes.dropLast(4).dropFirst(2)).replacingOccurrences(of: "M", with: ":")
     }
 }

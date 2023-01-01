@@ -6,14 +6,18 @@
 //
 
 import SwiftUI
-
+import SwiftUIPager
+/*
 struct ScoreboardV2View: View {
-    @ObservedObject var dayGames: DayGames
+    @EnvironmentObject var scoreData: DayGames
+    @State var page = Page.withIndex(2)
+    @State var isPresented: Bool = false
+
     @Environment(\.colorScheme) var colorScheme
     @Namespace var animation
     
     var body: some View {
-        TabView {
+        NavigationView {
             VStack {
                 ScrollViewReader { value in
                     HStack {
@@ -21,19 +25,19 @@ struct ScoreboardV2View: View {
                             Section(header: HeaderView()) {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 0) {
-                                        ForEach(dayGames.currentWeek, id: \.self) { day in
+                                        ForEach(scoreData.availableDaysIndex, id: \.self) { dayIndex in
                                             VStack(spacing: 5) {
-                                                Text(dayGames.extractDate(date: day, format: "EEE"))
+                                                Text(scoreData.extractDate(date: scoreData.availableDays[dayIndex], format: "EEE"))
                                                     .font(.system(size: 14))
-                                                    .fontWeight(dayGames.isToday(date: day) ? .bold : .semibold)
-                                                Text(dayGames.extractDate(date: day, format: "dd"))
+                                                    .fontWeight(scoreData.isToday(date: scoreData.availableDays[dayIndex]) ? .bold : .semibold)
+                                                Text(scoreData.extractDate(date: scoreData.availableDays[dayIndex], format: "dd"))
                                                     .font(.system(size: 15))
-                                                    .fontWeight(dayGames.isToday(date: day) ? .bold : .semibold)
+                                                    .fontWeight(scoreData.isToday(date: scoreData.availableDays[dayIndex]) ? .bold : .semibold)
                                             }
                                             .frame(width:55, height:55)
                                             .background(
                                                 ZStack {
-                                                    if (dayGames.isSelectedDay(date: day))  {
+                                                    if (scoreData.isSelectedDay(date: scoreData.availableDays[dayIndex]))  {
                                                         Circle()
                                                             .fill(Color.blue.opacity(1.0))
                                                             .matchedGeometryEffect(id: "ANNIM", in: animation)
@@ -46,12 +50,11 @@ struct ScoreboardV2View: View {
                                                 //todayGames.selectedDay = day
                                                 //withAnimation(Animation.linear) {
                                                 withAnimation(.easeInOut(duration: 0.1)) {
-                                                    print("Selected day is \(day)")
-                                                    dayGames.selectedDay = day
-                                                    dayGames.loadJson()
+                                                    print("Selected day is \(dayIndex) date \(scoreData.availableDays[dayIndex])")
+                                                    scoreData.selectedDayIndex = dayIndex
+                                                    //TBD page = Page.withIndex(scoreData.getIndexFromSelectedDay())
+                                                    //TBD scoreData.loadJson(gamesDate: day)
                                                 }
-                                                
-                                                
                                             }
                                         }
                                     }
@@ -59,7 +62,7 @@ struct ScoreboardV2View: View {
                                     
                                 }
                             }
-                            if (dayGames.dataIsLoaded) {
+                            if (scoreData.dataIsLoaded) {
                                 //Text("game")
                             }
                         }
@@ -67,39 +70,52 @@ struct ScoreboardV2View: View {
                     .onAppear {
                         value.scrollTo(3, anchor: .center)
                     }
-
-                    if (dayGames.dataIsLoaded) {
-                        //Text("Content loaded")
-                        ScrollView {
-                            ForEach(dayGames.getGamesPerDay()) { game in
-                                //NavigationLink(destination: BoxscoreView(boxscore: BoxscoreModel(gameId: game.gameId, preview: true))) {
-                                    ListItemView(game: game)
-                                //}
+                    GeometryReader { proxy in
+                        VStack(spacing: 10) {
+                            Pager(page: page,
+                                  data: scoreData.availableDaysIndex,
+                                  id: \.self) {
+                                let _ = print("--------- Loading page \($0)/\(scoreData.availableDaysIndex.count) -------------")
+                                self.pageView($0)
                             }
+                                  .singlePagination(ratio: 0.5, sensitivity: .high)
+                                  .onPageWillChange({ (page) in
+                                      let _ = print("Page will change to: \(page)")
+                                  })
+                                  .onPageChanged({ page in
+                                      let _ = print("Page changed to: \(page)")
+                                      scoreData.selectedDayIndex = page
+                                      /*if page == 1 {
+                                       let newData = (1...5).map { data1.first! - $0 }.reversed()
+                                       withAnimation {
+                                       page1.index += newData.count
+                                       data1.insert(contentsOf: newData, at: 0)
+                                       isPresented.toggle()
+                                       }
+                                       } else if page == self.data1.count - 2 {
+                                       guard let last = self.data1.last else { return }
+                                       let newData = (1...5).map { last + $0 }
+                                       withAnimation {
+                                       isPresented.toggle()
+                                       data1.append(contentsOf: newData)
+                                       }
+                                       }*/
+                                  })
+                                  .pagingPriority(.simultaneous)
+                                  .preferredItemSize(CGSize(width: proxy.size.width-10, height: proxy.size.height-10))
+                                  .itemSpacing(10)
+                                  .background(Color.gray.opacity(0.2))
+                                  .alert(isPresented: self.$isPresented, content: {
+                                      Alert(title: Text("Congratulations!"),
+                                            message: Text("Five more elements were appended to your Pager"),
+                                            dismissButton: .default(Text("Okay!")))
+                                  })
                         }
-                        .listStyle(PlainListStyle())
-                        .refreshable {
-                            dayGames.loadJson()
-                        }
-                        //.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        //.frame(minHeight: 650).border(Color.red)
-                    }
-                    else {
-                        Text("Loading data...")
-                            .font(.title2)
+                        //.navigationBarTitle("Infinite Pagers", displayMode: .inline)
                     }
                 }
                 Spacer()
-
-            }
-            .tabItem {
-                Label("Menu", systemImage: "list.dash")
-            }
-
-            
-            Text("TBD...")
-            .tabItem {
-                    Label("Order", systemImage: "square.and.pencil")
+                
             }
         }
     }
@@ -109,7 +125,7 @@ struct ScoreboardV2View: View {
         VStack(spacing: 10) {
             HStack(alignment: .center, spacing: 5) {
                 Text("Games")
-                    .foregroundColor(.primary)
+                    //.foregroundColor(.primary)
                     .font(.largeTitle.bold())
                 Spacer()
                 Image("logo-nba")
@@ -119,11 +135,47 @@ struct ScoreboardV2View: View {
                 //.padding(.bottom, -5)
             }
             .hLeading()
-            Text(dayGames.extractDate(date: dayGames.selectedDay, format: "MMMM"))
+            Text(scoreData.extractDate(date: scoreData.selectedDay, format: "MMMM"))
                 .foregroundColor(.gray)
         }
         .padding()
-        .background(Color.black)
+    }
+    
+    func pageView(_ pageIndex: Int) -> some View {
+        ZStack {
+            let _ = print("Loading view for index \(pageIndex) sel \(scoreData.selectedDayIndex) isLoaded \(scoreData.gamesByIndex[pageIndex]?.isLoaded ?? false)")
+            
+            if scoreData.gamesByIndex[pageIndex]?.isLoaded ?? false {
+                let _ = print("Should display games for index \(pageIndex). Nb games \(scoreData.gamesByIndex[pageIndex]!.games.count)")
+                VStack {
+                    Text("Data loaded")
+                        .font(.title2)
+                    ScrollView {
+                        ForEach(scoreData.gamesByIndex[pageIndex]!.games) { game in
+                            NavigationLink(destination: GameDetailsView(game: game)) {//BoxscoreView(boxscore:  //BoxscoreModel(gameId: "\(game.id)", preview: false))) {
+                                VStack {
+                                    ListItemView(game: game)
+                                    //Text("\(game.id)")
+                                }
+                            }
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .refreshable {
+                    //TBDscoreData.loadJson(gamesDate: dayOfView)
+                }
+                //.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                //.frame(minHeight: 650).border(Color.red)
+            }
+            else {
+                let _ = print("But games are not displayed for index \(pageIndex)")
+                VStack {
+                    Text("Loading data...")
+                        .font(.title2)
+                }
+            }
+        }
     }
 }
 
@@ -238,6 +290,8 @@ struct ListItemView: View {
 
 struct ScoreboardV2View_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreboardV2View(dayGames: DayGames(preview: true))
+        ScoreboardV2View()
+            .environmentObject(DayGames(preview: false))
     }
 }
+*/
