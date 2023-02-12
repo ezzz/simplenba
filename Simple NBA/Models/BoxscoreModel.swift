@@ -84,12 +84,16 @@ struct jStatisticBoxscore: Decodable {
     var twoPointersPercentage: Float
 }
 
+
+
 class BoxscoreModel: ObservableObject {
     @Published var dataIsLoaded: Bool = false
     @Published var gameBoxscore: jBoxscore? = nil
     var bPreview: Bool
     var iGameId: String
-    
+    var top5away = [jPlayerBoxscore]()
+    var top5home = [jPlayerBoxscore]()
+
     init(gameId: String, preview: Bool) {
         bPreview = preview
         iGameId = gameId
@@ -108,11 +112,8 @@ class BoxscoreModel: ObservableObject {
                 do {
                     let content = try Data(contentsOf: URL(fileURLWithPath: pathToJsonPreview))
                     self.gameBoxscore = try JSONDecoder().decode(jBoxscore.self, from: content)
+                    self.getTop5()
                     self.dataIsLoaded = true
-                    print ("(preview) Boxscore for \((self.gameBoxscore?.game.gameId)!)")
-                    /*for player in self.gameBoxscore?.homeTeam.players {
-                        print ("\(player.nameI) - \(player.points) pts")
-                    }*/
                 } catch {
                     print("Preview Not data loaded. Error:\(error)")
                 }
@@ -138,13 +139,8 @@ class BoxscoreModel: ObservableObject {
                     do {
                         let dataFromJson = try JSONDecoder().decode(jBoxscore.self, from: content)
                         self.gameBoxscore = dataFromJson
+                        self.getTop5()
                         self.dataIsLoaded = true
-                        /*
-                        print ("Boxscore for \(self.gameBoxscore?.gameCode)")
-                        for player in self.gameBoxscore?.homeTeam.players {
-                            print ("\(player.nameI) - \(player.points) pts")
-                        }
-*/
                     } catch {
                         print(error)
                     }
@@ -153,6 +149,28 @@ class BoxscoreModel: ObservableObject {
                 
             }
             task.resume()
+        }
+    }
+    
+    func getTop5() {
+        let awayOrdered = self.gameBoxscore!.game.awayTeam.players.sorted { $0.statistics.points > $1.statistics.points }
+        var count = 1
+        for player in awayOrdered {
+            self.top5away.append(player)
+            if count >= 5 {
+                break
+            }
+            count += 1
+        }
+        
+        let homeOrdered = self.gameBoxscore!.game.homeTeam.players.sorted { $0.statistics.points > $1.statistics.points }
+        count = 1
+        for player in homeOrdered {
+            self.top5home.append(player)
+            if count >= 5 {
+                break
+            }
+            count += 1
         }
     }
     

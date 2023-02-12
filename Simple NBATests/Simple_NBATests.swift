@@ -18,14 +18,9 @@ final class Simple_NBATests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-        
-        let mPlay = PlayByPlay(gameId: "0022200161", preview: false)
+    func testPlayByPlay() throws {
+        print("Starting test PlaybyPlay")
+        let mPlay = PlayByPlay(gameId: "0022200758", homeTeamTricode: "SAC", preview: true)
         _ = XCTWaiter.wait(for: [expectation(description: "Wait for 10 seconds")], timeout: 3.0)
         print ("Data loaded : \(mPlay.gameId) actions \(mPlay.diffTable.count)")
         XCTAssert(mPlay.dataIsLoaded == true)
@@ -36,7 +31,62 @@ final class Simple_NBATests: XCTestCase {
             
         }
     }
+    
+    func testStandings() throws {
+        let st = Standings()
+        _ = XCTWaiter.wait(for: [expectation(description: "Wait for 2 seconds")], timeout: 2.0)
+        
+        XCTAssert(st.standings.isLoaded == true)
+        XCTAssert(st.standings.westConferenceStandings.count > 10)
+        XCTAssert(st.standings.eastConferenceStandings.count > 10)
+        print(("== Western conference ==========================="))
+        for team in st.standings.westConferenceStandings {
+            print("\(team.leagueRank) - \(team.name) - \(team.record) - \(team.gb) - \(team.pointsAtt) / \(team.pointsDef) - Serie \(team.currenStreak) - L10 \(team.last10) ")
+        }
+        print(("== Eastern conference ==========================="))
+        for team in st.standings.eastConferenceStandings {
+            print("\(team.leagueRank) - \(team.name) - \(team.record) - \(team.currenStreak)")
+        }
+        print(("== =============================================="))
+    }
+    
+    func testDate() throws {
+        /*
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        let initDate = Date()
+        let mydate1 = Calendar.current.date(byAdding: .day, value: -2, to: initDate)!
+        let mydate2 = Calendar.current.date(byAdding: .day, value: -2, to: mydate1)!
+        let mydate3 = Calendar.current.date(byAdding: .day, value: -2, to: mydate2)!
+        let mydate4 = Calendar.current.date(byAdding: .day, value: -2, to: mydate3)!
+        print ("Test> \(formatter.string(from: initDate)) -1 \(formatter.string(from: mydate1))")
+        print ("Test> \(formatter.string(from: mydate1)) -1 \(formatter.string(from: mydate2))")
+        print ("Test> \(formatter.string(from: mydate2)) -1 \(formatter.string(from: mydate3))")
+        print ("Test> \(formatter.string(from: mydate3)) -1 \(formatter.string(from: mydate4))")*/
+        let daygames = DayGames(preview: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+        daygames.updateSelectedDay(dayOffset: -1, reloadJson: false)
+    }
 
+    func testPlayByPlay2() throws {
+        print("Starting test PlaybyPlay")
+        let mPlay = PlayByPlay(gameId: "0022200758", homeTeamTricode: "SAC", preview: true)
+        _ = XCTWaiter.wait(for: [expectation(description: "Wait for 10 seconds")], timeout: 3.0)
+        print ("Data loaded : \(mPlay.gameId) actions \(mPlay.diffTable.count)")
+        XCTAssert(mPlay.dataIsLoaded == true)
+        XCTAssert(mPlay.timeArray.count > 30)
+        for dt in mPlay.timeArray {
+            let diff = mPlay.diffTable[dt]!
+            print("> dt \(dt) -> \(diff)")// diff \(mPlay.diffTable[dt])")
+            
+        }
+    }
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {

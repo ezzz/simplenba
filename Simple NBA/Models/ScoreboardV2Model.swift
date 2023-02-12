@@ -4,8 +4,8 @@
 //
 //  Created by Bruno ARENE on 02/11/2022.
 //
-//
-import Foundation
+
+import SwiftUI
 
 // MARK: - ScoreboardV2
 struct jScoreboardV2: Codable {
@@ -126,18 +126,23 @@ struct mGame : Identifiable {
     let status: Int
     var awayTeamResult, homeTeamResult: mTeamGameResult
     var diff_qtr1, diff_qtr2, diff_qtr3, diff_qtr4, diff_ft: Int?
+    var colorAway, colorHome: Color?
 }
 
 class mTeamGameResult {
     let id : Int
     let teamTricode, teamName, teamWinsLoss: String
-    let pts, pts_qtr1, pts_qtr2, pts_qtr3, pts_qtr4, pts_ot: Int
+    let pts, pts_qtr1, pts_qtr2, pts_qtr3, pts_qtr4: Int
+    let nb_ot, pts_ot1, pts_ot2, pts_ot3, pts_ot4, pts_ot5, pts_ot6, pts_ot7, pts_ot8, pts_ot9, pts_ot10: Int
     let fg_pct, ft_pct, fg3_pct: Double
     let ast, reb, tov: Int
+    var isbest_fg_pct, isbest_ft_pct, isbest_fg3_pct, isbest_ast, isbest_reb, isbest_tov: Bool
     var leadPts, leadReb, leadAst : Int?
     var leadPtsName, leadRebName, leadAstName : String?
 
-    init(id: Int, teamTricode: String, teamName: String, teamWinsLoss: String, pts: Int, pts_qtr1: Int, pts_qtr2: Int, pts_qtr3: Int, pts_qtr4: Int, pts_ot: Int, fg_pct: Double, ft_pct:Double, fg3_pct:Double, ast:Int, reb:Int, tov:Int) {
+    init(id: Int, teamTricode: String, teamName: String, teamWinsLoss: String, pts_qtr1: Int, pts_qtr2: Int, pts_qtr3: Int, pts_qtr4: Int,
+         nb_ot: Int, pts_ot1: Int, pts_ot2: Int, pts_ot3: Int, pts_ot4: Int, pts_ot5: Int, pts_ot6: Int, pts_ot7: Int, pts_ot8: Int, pts_ot9: Int, pts_ot10: Int,
+         pts: Int, fg_pct: Double, ft_pct:Double, fg3_pct:Double, ast:Int, reb:Int, tov:Int) {
         self.id = id
         self.teamTricode = teamTricode
         self.teamName = teamName
@@ -147,13 +152,29 @@ class mTeamGameResult {
         self.pts_qtr2 = pts_qtr2
         self.pts_qtr3 = pts_qtr3
         self.pts_qtr4 = pts_qtr4
-        self.pts_ot = pts_ot
+        self.nb_ot = nb_ot
+        self.pts_ot1 = pts_ot1
+        self.pts_ot2 = pts_ot2
+        self.pts_ot3 = pts_ot3
+        self.pts_ot4 = pts_ot4
+        self.pts_ot5 = pts_ot5
+        self.pts_ot6 = pts_ot6
+        self.pts_ot7 = pts_ot7
+        self.pts_ot8 = pts_ot8
+        self.pts_ot9 = pts_ot9
+        self.pts_ot10 = pts_ot10
         self.fg_pct = fg_pct
         self.ft_pct = ft_pct
         self.fg3_pct = fg3_pct
         self.ast = ast
         self.reb = reb
         self.tov = tov
+        isbest_fg_pct = false
+        isbest_ft_pct = false
+        isbest_fg3_pct = false
+        isbest_ast = false
+        isbest_reb = false
+        isbest_tov = false
     }
 }
 
@@ -177,6 +198,7 @@ class DayGames: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-dd"
         selectedStringDay = formatter.string(from: today)
+        print ("SelectedStringDay \(selectedStringDay) +1 \(formatter.string(from: selectedDayPlus1)) -1 \(formatter.string(from: selectedDayMinus1))")
         loadJson(gamesDateString: selectedStringDay)
         if !bPreview {
             //loadJson(gamesDate:Calendar.current.date(byAdding: .day, value: 1, to: self.selectedDay)!)
@@ -245,6 +267,26 @@ class DayGames: ObservableObject {
         }
     }
     
+    func reloadTodayAsync() async {
+        do {
+            
+            print("ReloadTodayAsync for date \(selectedStringDay)")
+            let endpoint = URL(string: "https://stats.nba.com/stats/scoreboardv2?GameDate=\(selectedStringDay)&LeagueID=00&DayOffset=0")!
+            var request = URLRequest(url: endpoint)
+            request.httpMethod = "GET"
+            request.setValue("x-nba-stats-origin", forHTTPHeaderField: "x-nba-stats-origin")
+            let (content, _) = try await URLSession.shared.data(for: request)
+            let dataFromJson = try JSONDecoder().decode(jScoreboardV2.self, from: content)
+            
+            print ("ReloadTodayAsync Scoreboard for \(dataFromJson.parameters.gameDate)")
+            self.parseGames(jsonParseData:dataFromJson, forStringDate: selectedStringDay)
+            print("ReloadTodayAsync -> data loaded :)")
+        }
+        catch {
+            // TODO: do some error handling
+        }
+    }
+    
     func parseGames(jsonParseData: jScoreboardV2, forStringDate: String) {
         print ("Parsing data ScoreboardV2 for \(jsonParseData.parameters.gameDate)")
         //do {
@@ -261,16 +303,39 @@ class DayGames: ObservableObject {
                     let awayTeamId = resultSet.rowSet[i][7].intValue()
                     let homeScore = jsonParseData.resultSets[1].rowSet.first(where: { $0[3].intValue() == homeTeamId } )
                     let awayScore = jsonParseData.resultSets[1].rowSet.first(where: { $0[3].intValue() == awayTeamId } )
+                    
+                    // Calculate nb of overtime
+                    var nb_ot = 0
+                    var index = 12
+                    var points_ot = 0
+                    repeat {
+                        points_ot = awayScore![12].intValue() + homeScore![12].intValue()
+                        if points_ot > 0 {
+                            nb_ot += 1
+                        }
+                    }
+                    while points_ot > 0 || index == 21
+                            
                     let awayResult = mTeamGameResult(id: homeTeamId,
                                                      teamTricode: awayScore![4].stringValue(),
                                                      teamName: awayScore![6].stringValue(),
                                                      teamWinsLoss: awayScore![7].stringValue(),
-                                                     pts: awayScore![22].intValue(),
                                                      pts_qtr1: awayScore![8].intValue(),
                                                      pts_qtr2: awayScore![9].intValue(),
                                                      pts_qtr3: awayScore![10].intValue(),
                                                      pts_qtr4: awayScore![11].intValue(),
-                                                     pts_ot: awayScore![12].intValue() + awayScore![13].intValue() + awayScore![14].intValue() + awayScore![15].intValue() + awayScore![16].intValue() + awayScore![17].intValue() + awayScore![18].intValue() + awayScore![18].intValue() + awayScore![19].intValue() + awayScore![20].intValue() + awayScore![21].intValue(),
+                                                     nb_ot: nb_ot,
+                                                     pts_ot1: awayScore![12].intValue(),
+                                                     pts_ot2: awayScore![13].intValue(),
+                                                     pts_ot3: awayScore![14].intValue(),
+                                                     pts_ot4: awayScore![15].intValue(),
+                                                     pts_ot5: awayScore![16].intValue(),
+                                                     pts_ot6: awayScore![17].intValue(),
+                                                     pts_ot7: awayScore![18].intValue(),
+                                                     pts_ot8: awayScore![19].intValue(),
+                                                     pts_ot9: awayScore![20].intValue(),
+                                                     pts_ot10: awayScore![21].intValue(),
+                                                     pts: awayScore![22].intValue(),
                                                      fg_pct:awayScore![23].doubleValue(),
                                                      ft_pct:awayScore![24].doubleValue(),
                                                      fg3_pct:awayScore![25].doubleValue(),
@@ -281,12 +346,22 @@ class DayGames: ObservableObject {
                                                      teamTricode: homeScore![4].stringValue(),
                                                      teamName: homeScore![6].stringValue(),
                                                      teamWinsLoss: homeScore![7].stringValue(),
-                                                     pts: homeScore![22].intValue(),
                                                      pts_qtr1: homeScore![8].intValue(),
                                                      pts_qtr2: homeScore![9].intValue(),
                                                      pts_qtr3: homeScore![10].intValue(),
                                                      pts_qtr4: homeScore![11].intValue(),
-                                                     pts_ot: homeScore![12].intValue() + homeScore![13].intValue() + homeScore![14].intValue() + homeScore![15].intValue() + homeScore![16].intValue() + homeScore![17].intValue() + homeScore![18].intValue() + homeScore![18].intValue() + homeScore![19].intValue() + homeScore![20].intValue() + homeScore![21].intValue(),
+                                                     nb_ot: nb_ot,
+                                                     pts_ot1: homeScore![12].intValue(),
+                                                     pts_ot2: homeScore![13].intValue(),
+                                                     pts_ot3: homeScore![14].intValue(),
+                                                     pts_ot4: homeScore![15].intValue(),
+                                                     pts_ot5: homeScore![16].intValue(),
+                                                     pts_ot6: homeScore![17].intValue(),
+                                                     pts_ot7: homeScore![18].intValue(),
+                                                     pts_ot8: homeScore![19].intValue(),
+                                                     pts_ot9: homeScore![20].intValue(),
+                                                     pts_ot10: homeScore![21].intValue(),
+                                                     pts: homeScore![22].intValue(),
                                                      fg_pct:homeScore![23].doubleValue(),
                                                      ft_pct:homeScore![24].doubleValue(),
                                                      fg3_pct:homeScore![25].doubleValue(),
@@ -297,6 +372,9 @@ class DayGames: ObservableObject {
 
                     var game = mGame(id: resultSet.rowSet[i][2].stringValue(), time: resultSet.rowSet[i][0].stringValue(), statusText: resultSet.rowSet[i][4].stringValue(), arenaName: resultSet.rowSet[i][15].stringValue(), status:resultSet.rowSet[i][3].intValue(), awayTeamResult: awayResult, homeTeamResult: homeResult)
 
+                    setColorsForTeams(game: &game)
+                    setBestStatsForTeams(game: &game)
+                    
                     print("Calculating diff per quarter")
                     game.diff_qtr1 = awayResult.pts_qtr1 - homeResult.pts_qtr1
                     game.diff_qtr2 = awayResult.pts_qtr2 - homeResult.pts_qtr2
@@ -374,33 +452,163 @@ class DayGames: ObservableObject {
      return index
      }*/
     
-    func updateSelectedDay(dayOffset:Int) {
-        self.selectedDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: self.selectedDay)!
-        self.selectedDayPlus1 = Calendar.current.date(byAdding: .day, value: 1, to: self.selectedDay)!
-        self.selectedDayMinus1 = Calendar.current.date(byAdding: .day, value: -1, to: self.selectedDay)!
+    func updateSelectedDay(dayOffset:Int, reloadJson: Bool) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd hh:mm:ss"
+        let startDate = self.selectedDay
+        self.selectedDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: startDate)!
+        self.selectedDayPlus1 = Calendar.current.date(byAdding: .day, value: dayOffset+1, to: startDate)!
+        self.selectedDayMinus1 = Calendar.current.date(byAdding: .day, value: dayOffset-1, to: startDate)!
+        
+        print ("updateSelectedDay> startDate \(formatter.string(from: startDate)) offset \(dayOffset) / -1 \(dayOffset-1) result \(formatter.string(from: self.selectedDayMinus1))")
+        
         self.selectedStringDay = self.getStringDate(date:self.selectedDay)
-        if !self.gamesByDay.keys.contains(self.selectedStringDay) {
+
+
+        if reloadJson || !self.gamesByDay.keys.contains(self.selectedStringDay) {
             self.loadJson(gamesDateString: self.selectedStringDay)
         }
     }
     
+    func setColorsForTeams(game: inout mGame) {
+        let cAway1 = Color("\(game.awayTeamResult.teamTricode)1")
+        let cAway2 = Color("\(game.awayTeamResult.teamTricode)2")
+        let cHome1 = Color("\(game.homeTeamResult.teamTricode)1")
+        let cHome2 = Color("\(game.homeTeamResult.teamTricode)2")
+
+        let cd11 = getColorDistance(color1: cHome1, color2: cAway1)
+        let cd12 = getColorDistance(color1: cHome1, color2: cAway2)
+        let cd21 = getColorDistance(color1: cHome2, color2: cAway1)
+        let cd22 = getColorDistance(color1: cHome2, color2: cAway2)
+
+        print("Color distance \(cd11) \(cd12) \(cd21) \(cd22) ?")
+
+        if cd11 > cd12 && cd11 > cd21 && cd11 > cd22 {
+            game.colorAway = cAway1
+            game.colorHome = cHome1
+        }
+        else if cd12 > cd11 && cd12 > cd21 && cd12 > cd22 {
+            game.colorAway = cAway1
+            game.colorHome = cHome2
+        }
+        else if cd21 > cd11 && cd21 > cd12 && cd21 > cd22 {
+            game.colorAway = cAway2
+            game.colorHome = cHome1
+        }
+        else {
+            game.colorAway = cAway2
+            game.colorHome = cHome2
+        }
+    }
+    
+    func getColorDistance(color1: Color, color2: Color) -> CGFloat {
+        let uic1 = UIColor(color1)
+        let uic2 = UIColor(color2)
+
+        let red = (uic1.cgColor.components![0] - uic2.cgColor.components![0])
+        let green = (uic1.cgColor.components![1] - uic2.cgColor.components![1])
+        let blue = (uic1.cgColor.components![2] - uic2.cgColor.components![2])
+        
+        return red*red+green*green+blue*blue
+    }
+
+    func setBestStatsForTeams(game: inout mGame) {
+        if game.awayTeamResult.fg_pct > game.homeTeamResult.fg_pct {
+            game.awayTeamResult.isbest_fg_pct = true
+        }
+        else if game.awayTeamResult.fg_pct < game.homeTeamResult.fg_pct {
+            game.homeTeamResult.isbest_fg_pct = true
+        }
+        
+        if game.awayTeamResult.fg3_pct > game.homeTeamResult.fg3_pct {
+            game.awayTeamResult.isbest_fg3_pct = true
+        }
+        else if game.awayTeamResult.fg3_pct < game.homeTeamResult.fg3_pct {
+            game.homeTeamResult.isbest_fg3_pct = true
+        }
+        
+        if game.awayTeamResult.ft_pct > game.homeTeamResult.ft_pct {
+            game.awayTeamResult.isbest_ft_pct = true
+        }
+        else if game.awayTeamResult.ft_pct < game.homeTeamResult.ft_pct {
+            game.homeTeamResult.isbest_ft_pct = true
+        }
+        
+        if game.awayTeamResult.reb > game.homeTeamResult.reb {
+            game.awayTeamResult.isbest_reb = true
+        }
+        else if game.awayTeamResult.reb < game.homeTeamResult.reb {
+            game.homeTeamResult.isbest_reb = true
+        }
+        
+        if game.awayTeamResult.ast > game.homeTeamResult.ast {
+            game.awayTeamResult.isbest_ast = true
+        }
+        else if game.awayTeamResult.ast < game.homeTeamResult.ast {
+            game.homeTeamResult.isbest_ast = true
+        }
+        
+        if game.awayTeamResult.tov < game.homeTeamResult.tov {
+            game.awayTeamResult.isbest_tov = true
+        }
+        else if game.awayTeamResult.tov > game.homeTeamResult.tov {
+            game.homeTeamResult.isbest_tov = true
+        }
+    }
+    
     func getPreviewGame() -> mGame {
-        var awayResult = mTeamGameResult(id: 1, teamTricode: "GSW", teamName: "Warriors", teamWinsLoss: "7-2", pts: 102, pts_qtr1: 26, pts_qtr2: 33, pts_qtr3: 23, pts_qtr4: 20, pts_ot: 0, fg_pct:0.437, ft_pct:0.887, fg3_pct:0.32, ast:24, reb:35, tov:16)
+        var awayResult = mTeamGameResult(id: 1, teamTricode: "GSW", teamName: "Warriors", teamWinsLoss: "7-2", pts_qtr1: 26, pts_qtr2: 33, pts_qtr3: 23, pts_qtr4: 20, nb_ot: 2, pts_ot1: 21, pts_ot2: 22, pts_ot3: 0, pts_ot4: 0, pts_ot5: 0, pts_ot6: 0, pts_ot7: 0, pts_ot8: 0, pts_ot9: 0, pts_ot10: 0, pts: 102, fg_pct:0.487, ft_pct:0.887, fg3_pct:0.32, ast:24, reb:35, tov:16)
         awayResult.leadPts = 35
         awayResult.leadReb = 18
         awayResult.leadAst = 12
         awayResult.leadPtsName = "Giannis Antetokounmpo"
         awayResult.leadRebName = "Trae Young"
         awayResult.leadAstName = "Trae Young"
-
-        var homeResult = mTeamGameResult(id: 2, teamTricode: "CLE", teamName: "Cavaliers", teamWinsLoss: "7-2", pts: 123, pts_qtr1: 38, pts_qtr2: 26, pts_qtr3: 21, pts_qtr4: 29, pts_ot: 0, fg_pct:0.437, ft_pct:0.887, fg3_pct:0.32, ast:24, reb:35, tov:16)
+        
+        var homeResult = mTeamGameResult(id: 2, teamTricode: "CLE", teamName: "Cavaliers", teamWinsLoss: "7-2", pts_qtr1: 38, pts_qtr2: 26, pts_qtr3: 21, pts_qtr4: 29, nb_ot: 2, pts_ot1: 11, pts_ot2: 12, pts_ot3: 0, pts_ot4: 0, pts_ot5: 0, pts_ot6: 0, pts_ot7: 0, pts_ot8: 0, pts_ot9: 0, pts_ot10: 0, pts: 123, fg_pct:0.437, ft_pct:0.87, fg3_pct:0.37, ast:22, reb:32, tov:16)
         homeResult.leadPts = 35
         homeResult.leadReb = 18
         homeResult.leadAst = 12
         homeResult.leadPtsName = "home player"
         homeResult.leadRebName = "Trae Young"
         homeResult.leadAstName = "Trae Young"
-
-        return mGame(id: "12", time: "07:00 pm ET", statusText: "Final", arenaName: "Rocket Mortgage FieldHouse", status:1, awayTeamResult: awayResult, homeTeamResult: homeResult)
+        
+        var game = mGame(id: "12", time: "07:00 pm ET", statusText: "Final", arenaName: "Rocket Mortgage FieldHouse", status:1, awayTeamResult: awayResult, homeTeamResult: homeResult)
+        game.colorAway = Color("GSW1")
+        game.colorHome = Color("HOU1")
+        
+        setBestStatsForTeams(game: &game)
+        
+        return game
     }
 }
+
+extension Color {
+ 
+    func uiColor() -> UIColor {
+
+        if #available(iOS 14.0, *) {
+            return UIColor(self)
+        }
+
+        let components = self.components()
+        return UIColor(red: components.r, green: components.g, blue: components.b, alpha: components.a)
+    }
+
+    private func components() -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+
+        let scanner = Scanner(string: self.description.trimmingCharacters(in: CharacterSet.alphanumerics.inverted))
+        var hexNumber: UInt64 = 0
+        var r: CGFloat = 0.0, g: CGFloat = 0.0, b: CGFloat = 0.0, a: CGFloat = 0.0
+
+        let result = scanner.scanHexInt64(&hexNumber)
+        if result {
+            r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+            g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+            b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+            a = CGFloat(hexNumber & 0x000000ff) / 255
+        }
+        return (r, g, b, a)
+    }
+}
+

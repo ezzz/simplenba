@@ -12,8 +12,10 @@ struct ScoreboardV3View: View {
     @EnvironmentObject var scoreData: DayGames
     @State var page = Page.withIndex(2)
     @State var isPresented: Bool = false
-    
+    @State var hideScores: Bool = false
+
     @Environment(\.colorScheme) var colorScheme
+
     @Namespace var animation
     
     var body: some View {
@@ -32,18 +34,23 @@ struct ScoreboardV3View: View {
                                     Spacer()
                                     CapsuleForDate(day: self.scoreData.selectedDayPlus1, isButton: false, offset: 1)
                                 }
-                               // .padding()
+                                
                             }
                         }
                     }
                 }
+                .padding()
+                .background(colorScheme == .light ? Color(hue: 1.0, saturation: 0.0, brightness: 0.95) : Color(hue: 1.0, saturation: 0.0, brightness: (0.0)))
+
                 GeometryReader { proxy in
-                    VStack(spacing: 10) {
-                        GameListView(gamesStringDay: scoreData.selectedStringDay)
-                            .environmentObject(scoreData)
+                    VStack {
+                         GameListView(gamesStringDay: scoreData.selectedStringDay, hideScore: $hideScores)
+                             .environmentObject(scoreData)
+                         Spacer()
                     }
                 }
-                Spacer()
+                .background(colorScheme == .light ? Color(hue: 1.0, saturation: 0.0, brightness: 0.95) : Color(hue: 1.0, saturation: 0.0, brightness: (0.0)))
+                
             }
         }
     }
@@ -55,17 +62,20 @@ struct ScoreboardV3View: View {
                 Text("Games")
                     .font(.largeTitle.bold())
                 Spacer()
+                /*
                 Image("logo-nba")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 45, height:  45)
+                    .frame(width: 90, height:  45)
+                    .padding(.trailing)
+                 */
+                Toggle("Hide scores", isOn: $hideScores)
+                    .frame(width: 150, height:  45)
+                    .padding(.trailing)
+                    .toggleStyle(SwitchToggleStyle(tint: .blue))
             }
             .hLeading()
-            //Text(scoreData.extractDate(date: scoreData.selectedDay, format: "MMMM"))
-            //    .foregroundColor(.gray)
         }
-        //.padding()
-        .padding(.leading, 15)
     }
     
     func CapsuleForDate(day: Date, isButton: Bool, offset: Int ) -> some View {
@@ -97,26 +107,18 @@ struct ScoreboardV3View: View {
                 }
             )
             .onTapGesture {
-             //print("Selected day is \(day)")
-             //todayGames.selectedDay = day
-             //withAnimation(Animation.linear) {
-             /*
-              withAnimation(.easeInOut(duration: 0.1)) {*/
-              //print("Selected day is \(dayIndex) date \(scoreData.availableDays[dayIndex])")
-              scoreData.updateSelectedDay(dayOffset: offset)
-              //TBD page = Page.withIndex(scoreData.getIndexFromSelectedDay())
-              //TBD scoreData.loadJson(gamesDate: day)
-              
+              scoreData.updateSelectedDay(dayOffset: offset, reloadJson: true)
              }
-            
         }
     }
 }
 
 struct GameListView: View {
     @EnvironmentObject var scoreData: DayGames
+    @Environment(\.colorScheme) var colorScheme
 
     var gamesStringDay: String
+    @Binding var hideScore: Bool
     
     var body: some View {
         ZStack {
@@ -133,10 +135,9 @@ struct GameListView: View {
                     VStack {
                         ScrollView {
                             ForEach(scoreData.gamesByDay[gamesStringDay]!.games) { game in
-                                NavigationLink(destination: GameDetailsView(game: game, bPreview: false)) {//BoxscoreView(boxscore:  //BoxscoreModel(gameId: "\(game.id)", preview: false))) {
+                                NavigationLink(destination: GameDetailsView(game: game, playbyplay: PlayByPlay(gameId: game.id, homeTeamTricode: game.homeTeamResult.teamTricode, preview: false), boxscore: BoxscoreModel(gameId: "\(game.id)", preview: false), bPreview: false)) {
                                     VStack {
-                                        ListItemView(game: game)
-                                        //Text("\(game.id)")
+                                        ListItemView(game: game, hideScore: $hideScore)
                                     }
                                 }
                             }
@@ -144,19 +145,21 @@ struct GameListView: View {
                     }
                     .listStyle(PlainListStyle())
                     .refreshable {
-                        //TBDscoreData.loadJson(gamesDate: dayOfView)
+                        await scoreData.reloadTodayAsync()
                     }
 
                 }
             }
             else {
                 let _ = print("But games are not displayed for \(gamesStringDay)")
-                VStack {
+                VStack(alignment: .center) {
                     Text("Loading data...")
                         .font(.title2)
                 }
             }
         }
+        
+        //.background(colorScheme == .light ? Color(hue: 1.0, saturation: 1.0, brightness: 0.95) : Color(hue: 1.0, saturation: 0.0, brightness: (0.0)))
     }
 }
 

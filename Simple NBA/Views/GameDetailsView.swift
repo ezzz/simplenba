@@ -10,8 +10,11 @@ import SwiftUI
 
 struct GameDetailsView: View {
     var game: mGame
+    var playbyplay: PlayByPlay
+    @StateObject var boxscore: BoxscoreModel
     let bPreview: Bool
-    
+    @Environment(\.colorScheme) var colorScheme
+
 
     //private var selectedGameId = 1
     @State private var collapsed: Bool = true
@@ -22,19 +25,19 @@ struct GameDetailsView: View {
                 VStack {
                     ScrollView(.vertical){
                         PanelGameScoreView(game: game)
+                        PanelGameGlobalStatView(game: game)
                         ZStack {
                             RoundedRectangle(cornerRadius: 8)
                                 .fill(.gray.opacity(0.6))
-                            ScoreGraphView(game: game, playbyplay: PlayByPlay(gameId: game.id, preview: bPreview))
+                            ScoreGraphView(game: game, playbyplay: playbyplay)
                         }
-                        .frame(width:400, height:125)
+                        .frame(width:400, height:CGFloat(120+40*playbyplay.numExtraLines))
 
                         //PanelGameScorePerQuarterView(game: game)
-                        PanelGameGlobalStatView(game: game)
-                        PanelGameTopPlayers(game: game)
+                        PanelGameTopPlayers(game: game, boxscore: BoxscoreModel(gameId: game.id, preview: false))
                             
                         //Text("Curve\nplaybypplay")
-                        ScorePlayByPlayView(game: game, playbyplay: PlayByPlay(gameId: game.id, preview: bPreview))
+                        ScorePlayByPlayView(game: game, playbyplay: PlayByPlay(gameId: game.id, homeTeamTricode: game.homeTeamResult.teamTricode, preview: bPreview))
                             .frame(width:400)
 
 
@@ -173,8 +176,6 @@ struct PanelGameScoreView: View {
             }
             .frame(maxWidth: 90)
             .padding()
-            
-            //.frame(maxWidth: .infinity, maxHeight: .infinity)//.frame(maxWidth: 100)
         }
         //.padding()
         .overlay(
@@ -182,7 +183,8 @@ struct PanelGameScoreView: View {
                 .stroke(Color(.clear),  lineWidth: 0)
         )
         .frame(width:400, height:110)
-        .background(RoundedRectangle(cornerRadius: 8).fill(LinearGradient(gradient: Gradient(colors: [Color(red: 85/255, green: 37/255, blue: 131/255), Color(red: 0/255, green: 120/255, blue: 140/255)]), startPoint: UnitPoint(x:0.2, y:1), endPoint: UnitPoint(x:0.8, y:0))))
+        /*.background(RoundedRectangle(cornerRadius: 8).fill(LinearGradient(gradient: Gradient(colors: [Color("\(game.awayTeamResult.teamTricode)1"), Color("\(game.homeTeamResult.teamTricode)1")]), startPoint: UnitPoint(x:0.2, y:1), endPoint: UnitPoint(x:0.8, y:0))))*/
+        .background(RoundedRectangle(cornerRadius: 8).fill(LinearGradient(gradient: Gradient(colors: [game.colorAway!, game.colorHome!]), startPoint: UnitPoint(x:0.2, y:1), endPoint: UnitPoint(x:0.8, y:0))))
     }
 }
 
@@ -254,6 +256,7 @@ struct PanelGameScorePerQuarterView: View {
 
 struct PanelGameGlobalStatView: View {
     var game: mGame
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         ZStack {
@@ -261,64 +264,101 @@ struct PanelGameGlobalStatView: View {
                 .fill(Color("PanelBackground"))
 
             VStack {
-                Grid(alignment: .topLeading,
+                Grid(alignment: .center,
                      horizontalSpacing: 1,
-                     verticalSpacing: 0) {
-                    GridRow {
-                        Text(" ")
-                            .frame(minWidth: 100)
-                        Text("FG")
-                            .bold()
-                            .frame(minWidth: 50)
-                        Text("FG3")
-                            .bold()
-                            .frame(minWidth: 50)
-                        Text("FT")
-                            .bold()
-                            .frame(minWidth: 50)
-                        Text("AST")
-                            .bold()
-                            .frame(minWidth: 40)
-                        Text("RBD")
-                            .bold()
-                            .frame(minWidth: 40)
-                        Text("TOV")
-                            .bold()
-                            .frame(minWidth: 40)
-                    }
+                     verticalSpacing: 2) {
                     
                     GridRow {
-                        Text("\(game.awayTeamResult.teamName)")
-                            .frame(minWidth: 100)
-                        Text("\(game.awayTeamResult.fg_pct*100, specifier: "%.0f")%")
-                            .frame(minWidth: 50)
-                        Text("\(game.awayTeamResult.fg3_pct*100, specifier: "%.0f")%")
-                            .frame(minWidth: 50)
-                        Text("\(game.awayTeamResult.ft_pct*100, specifier: "%.0f")%")
-                            .frame(minWidth: 50)
-                        Text("\(game.awayTeamResult.ast)")
-                            .frame(minWidth: 40)
-                        Text("\(game.awayTeamResult.reb)")
-                            .frame(minWidth: 40)
-                        Text("\(game.awayTeamResult.tov)")
-                            .frame(minWidth: 40)
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorAway!.opacity(game.awayTeamResult.isbest_fg_pct ? 0.7 : 0.0))
+                                .frame(width: 70, height: 25)
+                            Text("\(game.awayTeamResult.fg_pct*100, specifier: "%.0f") %")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.awayTeamResult.isbest_fg_pct ? .white : .black)
+                                .bold(game.homeTeamResult.isbest_fg_pct)
+                        }
+                        Text("Field Goals")
+                            .frame(minWidth: 130)
+                            .font(.subheadline)
+                            .bold()
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorHome!.opacity(game.homeTeamResult.isbest_fg_pct ? 0.7 : 0.0))
+                                .frame(width: 70, height: 25)
+                            Text("\(game.homeTeamResult.fg_pct*100, specifier: "%.0f") %")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.homeTeamResult.isbest_fg_pct ? .white : .black)
+                                .bold(game.homeTeamResult.isbest_fg_pct)
+                        }
                     }
                     GridRow {
-                        Text("\(game.homeTeamResult.teamName)")
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorAway!.opacity(game.awayTeamResult.isbest_fg3_pct ? 0.7 : 0.0))
+                                .frame(width: 70, height: 25)
+                            Text("\(game.awayTeamResult.fg3_pct*100, specifier: "%.0f") %")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.awayTeamResult.isbest_fg3_pct ? .white : .black)
+                        }
+                        Text("3 Points")
                             .frame(minWidth: 100)
-                        Text("\(game.homeTeamResult.fg_pct*100, specifier: "%.0f")%")
-                            .frame(minWidth: 50)
-                        Text("\(game.homeTeamResult.fg3_pct*100, specifier: "%.0f")%")
-                            .frame(minWidth: 50)
-                        Text("\(game.homeTeamResult.ft_pct*100, specifier: "%.0f")%")
-                            .frame(minWidth: 50)
-                        Text("\(game.homeTeamResult.ast)")
-                            .frame(minWidth: 40)
-                        Text("\(game.homeTeamResult.reb)")
-                            .frame(minWidth: 40)
-                        Text("\(game.homeTeamResult.tov)")
-                            .frame(minWidth: 40)
+                            .font(.subheadline)
+                            .bold()
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorHome!.opacity(game.homeTeamResult.isbest_fg3_pct ? 0.7 : 0.0))
+                                .frame(width: 70, height: 25)
+                            Text("\(game.homeTeamResult.fg3_pct*100, specifier: "%.0f") %")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.homeTeamResult.isbest_fg3_pct ? .white : .black)
+                        }
                     }
+                    GridRow {
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorAway!.opacity(game.awayTeamResult.isbest_reb ? 0.7 : 0.0))
+                                .frame(width: 50, height: 25)
+                            Text("\(game.awayTeamResult.reb)")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.awayTeamResult.isbest_reb ? .white : .black)
+                        }
+                        Text("Rebounds")
+                            .frame(minWidth: 100)
+                            .font(.subheadline)
+                            .bold()
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorHome!.opacity(game.homeTeamResult.isbest_reb ? 0.7 : 0.0))
+                                .frame(width: 50, height: 25)
+                            Text("\(game.homeTeamResult.reb)")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.homeTeamResult.isbest_reb ? .white : .black)
+                        }
+                    }
+                    GridRow {
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorAway!.opacity(game.awayTeamResult.isbest_ast ? 0.7 : 0.0))
+                                .frame(width: 50, height: 25)
+                            Text("\(game.awayTeamResult.ast)")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.awayTeamResult.isbest_ast ? .white : .black)
+                        }
+                        Text("Assists")
+                            .frame(minWidth: 100)
+                            .font(.subheadline)
+                            .bold()
+                        ZStack {
+                            Capsule()
+                                .fill(game.colorHome!.opacity(game.homeTeamResult.isbest_ast ? 0.7 : 0.0))
+                                .frame(width: 50, height: 25)
+                            Text("\(game.homeTeamResult.ast)")
+                                .frame(width: 100)
+                                .foregroundColor(colorScheme == .dark || game.homeTeamResult.isbest_ast ? .white : .black)
+                        }
+                    }
+
                 }
                      .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -326,94 +366,117 @@ struct PanelGameGlobalStatView: View {
                      )
             }
         }
-        .frame(width:400, height:100)
+        .frame(width:400, height:115)
     }
+    
 }
 
 struct PanelGameTopPlayers: View {
     @Environment(\.colorScheme) var colorScheme
 
     var game: mGame
+    @StateObject var boxscore: BoxscoreModel
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color("PanelBackground"))
 
             NavigationLink(destination: BoxscoreView(boxscore: BoxscoreModel(gameId: "\(game.id)", preview: false))) {
-                if let ptsNameA = game.awayTeamResult.leadPtsName,
-                   let rebNameA = game.awayTeamResult.leadRebName,
-                   let astNameA = game.awayTeamResult.leadAstName,
-                   let ptsA = game.awayTeamResult.leadPts,
-                   let rebA = game.awayTeamResult.leadReb,
-                   let astA = game.awayTeamResult.leadAst,
-                   let ptsNameH = game.homeTeamResult.leadPtsName,
-                   let rebNameH = game.homeTeamResult.leadRebName,
-                   let astNameH = game.homeTeamResult.leadAstName,
-                   let ptsH = game.homeTeamResult.leadPts,
-                   let rebH = game.homeTeamResult.leadReb,
-                   let astH = game.homeTeamResult.leadAst {
-                    
-                    Grid(alignment: .topLeading,
-                         horizontalSpacing: 1,
-                         verticalSpacing: 0) {
-                        GridRow {
-                            Text("\(ptsNameA)")
-                                .frame(width: 100)
-                                //.minimumScaleFactor(0.2)
-                                .lineLimit(1)
-                            Text("\(ptsA)")
-                                .frame(minWidth: 50)
-                            Text("PTS")
-                                .bold()
-                                .frame(minWidth: 50)
-                            Text("\(ptsH)")
-                                .frame(minWidth: 50)
-                            Text("\(ptsNameH)")
-                                .frame(minWidth: 100)
-                                .minimumScaleFactor(0.2)
-                                .lineLimit(1)
+                if boxscore.dataIsLoaded {
+                    HStack {
+                        Grid(alignment: .topLeading,
+                             horizontalSpacing: 1,
+                             verticalSpacing: 2) {
+                            GridRow {
+                                Text("Player")
+                                    .frame(width: 100)
+                                    .lineLimit(1)
+                                    .bold()
+                                    .foregroundColor(.white)
+                                    .background(game.colorAway)
+                                Text("PTS")
+                                    .frame(minWidth: 30)
+                                    .foregroundColor(.white)
+                                    .background(game.colorAway)
+                                Text("REB")
+                                    .frame(minWidth: 30)
+                                    .foregroundColor(.white)
+                                    .background(game.colorAway)
+                                Text("AST")
+                                    .frame(minWidth: 30)
+                                    .foregroundColor(.white)
+                                    .background(game.colorAway)
+                            }
+                            ForEach(boxscore.top5away) { player in
+                                GridRow {
+                                    Text("\(player.nameI)")
+                                        .frame(width: 100)
+                                        .lineLimit(1)
+                                    Text("\(player.statistics.points)")
+                                        .frame(minWidth: 30)
+                                    Text("\(player.statistics.reboundsTotal)")
+                                        .frame(minWidth: 30)
+                                    Text("\(player.statistics.assists)")
+                                        .frame(minWidth: 30)
+                                }
+                            }
                         }
-                        GridRow {
-                            Text("\(rebNameA)")
-                                .frame(minWidth: 100)
-                            Text("\(rebA)")
-                                .frame(minWidth: 50)
-                            Text("REB")
-                                .bold()
-                                .frame(minWidth: 50)
-                            Text("\(rebH)")
-                                .frame(minWidth: 50)
-                            Text("\(rebNameH)")
-                                .frame(minWidth: 100)
-                        }
-                        GridRow {
-                            Text("\(astNameA)")
-                                .frame(minWidth: 100)
-                            Text("\(astA)")
-                                .frame(minWidth: 50)
-                            Text("AST")
-                                .bold()
-                                .frame(minWidth: 50)
-                            Text("\(astH)")
-                                .frame(minWidth: 50)
-                            Text("\(astNameH)")
-                                .frame(minWidth: 100)
+                        Grid(alignment: .topLeading,
+                             horizontalSpacing: 1,
+                             verticalSpacing: 2) {
+                            GridRow {
+                                Text("Player")
+                                    .frame(width: 100)
+                                    .lineLimit(1)
+                                    .bold()
+                                    .foregroundColor(.white)
+                                    .background(game.colorHome)
+                                Text("PTS")
+                                    .frame(minWidth: 30)
+                                    .foregroundColor(.white)
+                                    .background(game.colorHome)
+                                Text("REB")
+                                    .frame(minWidth: 30)
+                                    .foregroundColor(.white)
+                                    .background(game.colorHome)
+                                Text("AST")
+                                    .frame(minWidth: 30)
+                                    .foregroundColor(.white)
+                                    .background(game.colorHome)
+                            }
+                            ForEach(boxscore.top5home) { player in
+                                GridRow {
+                                    Text("\(player.nameI)")
+                                        .frame(width: 100)
+                                        .lineLimit(1)
+                                    Text("\(player.statistics.points)")
+                                        .frame(minWidth: 30)
+                                    Text("\(player.statistics.reboundsTotal)")
+                                        .frame(minWidth: 30)
+                                    Text("\(player.statistics.assists)")
+                                        .frame(minWidth: 30)
+                                }
+                            }
                         }
                     }
                 }
                 else {
-                    let _ = print("DetailsGameView NOOO Point leader")
+                    Text("Boxscore loading...")
                 }
             }
         }
         .foregroundColor(colorScheme == .dark ? .white : .black)
-        .frame(width:400, height:100)
+        .frame(width:400, height:130)
     }
 }
 
 struct GameDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        GameDetailsView(game: DayGames(preview: true).getPreviewGame(), bPreview: true)
+        GameDetailsView(game: DayGames(preview: true).getPreviewGame(),
+                        playbyplay: PlayByPlay(gameId: "1234", homeTeamTricode: "SAC", preview: true),
+                        boxscore: BoxscoreModel(gameId: "123", preview: true),
+                        bPreview: true)
     }
 }
 

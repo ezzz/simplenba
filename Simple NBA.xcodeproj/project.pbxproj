@@ -23,6 +23,7 @@
 		15345E44295598D0000A30B3 /* GameListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15345E43295598D0000A30B3 /* GameListItemView.swift */; };
 		15551B46292A1261007A9898 /* ScoreboardV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B45292A1261007A9898 /* ScoreboardV2View.swift */; };
 		15551B49292D5E3F007A9898 /* GameDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15551B48292D5E3F007A9898 /* GameDetailsView.swift */; };
+		1571F9AC29854F4D00AF787E /* StandingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1571F9AB29854F4D00AF787E /* StandingsModel.swift */; };
 		157E512A29321671007BD3B9 /* SwiftUIPager in Frameworks */ = {isa = PBXBuildFile; productRef = 157E512929321671007BD3B9 /* SwiftUIPager */; };
 		157E512C29321740007BD3B9 /* TestInfiniteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E512B29321740007BD3B9 /* TestInfiniteView.swift */; };
 		157E512E29334E58007BD3B9 /* AppMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E512D29334E58007BD3B9 /* AppMainView.swift */; };
@@ -31,6 +32,7 @@
 		15960B7B2917D17100D4034E /* live_todayscoreboard.json in Resources */ = {isa = PBXBuildFile; fileRef = 15960B7A2917D17100D4034E /* live_todayscoreboard.json */; };
 		15960B7D291D657A00D4034E /* BoxscoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15960B7C291D657900D4034E /* BoxscoreModel.swift */; };
 		15960B7F291D65A100D4034E /* boxscore.json in Resources */ = {isa = PBXBuildFile; fileRef = 15960B7E291D65A000D4034E /* boxscore.json */; };
+		15CC950A296B3252009D17F0 /* ColorTeams.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15CC9509296B3252009D17F0 /* ColorTeams.xcassets */; };
 		15CCC5812943A577007E025E /* DemoChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CCC5802943A577007E025E /* DemoChartsView.swift */; };
 		15CCF1BD291D79FE00A63095 /* BoxscoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CCF1BC291D79FE00A63095 /* BoxscoreView.swift */; };
 		15CF31D5295E0A130065072C /* ScoreGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CF31D4295E0A120065072C /* ScoreGraphView.swift */; };
@@ -74,6 +76,8 @@
 		15345E43295598D0000A30B3 /* GameListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListItemView.swift; sourceTree = "<group>"; };
 		15551B45292A1261007A9898 /* ScoreboardV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardV2View.swift; sourceTree = "<group>"; };
 		15551B48292D5E3F007A9898 /* GameDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsView.swift; sourceTree = "<group>"; };
+		1571F9AB29854F4D00AF787E /* StandingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsModel.swift; sourceTree = "<group>"; };
+		1571F9AD29854F9E00AF787E /* standingsv3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = standingsv3.json; sourceTree = "<group>"; };
 		157E512B29321740007BD3B9 /* TestInfiniteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInfiniteView.swift; sourceTree = "<group>"; };
 		157E512D29334E58007BD3B9 /* AppMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMainView.swift; sourceTree = "<group>"; };
 		1595139F29392ED300C5C44B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 		15960B7A2917D17100D4034E /* live_todayscoreboard.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = live_todayscoreboard.json; sourceTree = "<group>"; };
 		15960B7C291D657900D4034E /* BoxscoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxscoreModel.swift; sourceTree = "<group>"; };
 		15960B7E291D65A000D4034E /* boxscore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = boxscore.json; sourceTree = "<group>"; };
+		15CC9509296B3252009D17F0 /* ColorTeams.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorTeams.xcassets; sourceTree = "<group>"; };
 		15CCC5802943A577007E025E /* DemoChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoChartsView.swift; sourceTree = "<group>"; };
 		15CCF1BC291D79FE00A63095 /* BoxscoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxscoreView.swift; sourceTree = "<group>"; };
 		15CF31D4295E0A120065072C /* ScoreGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreGraphView.swift; sourceTree = "<group>"; };
@@ -143,6 +148,7 @@
 				159513A12939315600C5C44B /* Data */,
 				150764AC291289DF00B81516 /* Assets.xcassets */,
 				1595139F29392ED300C5C44B /* Colors.xcassets */,
+				15CC9509296B3252009D17F0 /* ColorTeams.xcassets */,
 				150764AE291289DF00B81516 /* Preview Content */,
 			);
 			path = "Simple NBA";
@@ -180,6 +186,7 @@
 				150764D229128A0E00B81516 /* ScoreboardModel.swift */,
 				150764D62912972A00B81516 /* ScoreboardV2Model.swift */,
 				15E94B07293FB494002CE524 /* PlayByPlayModel.swift */,
+				1571F9AB29854F4D00AF787E /* StandingsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -211,6 +218,7 @@
 				15960B7A2917D17100D4034E /* live_todayscoreboard.json */,
 				150764D429128B2C00B81516 /* scoreboardV2.json */,
 				15E94B09293FB50E002CE524 /* playbyplay.json */,
+				1571F9AD29854F9E00AF787E /* standingsv3.json */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -325,6 +333,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15CC950A296B3252009D17F0 /* ColorTeams.xcassets in Resources */,
 				150764B0291289DF00B81516 /* Preview Assets.xcassets in Resources */,
 				15960B7B2917D17100D4034E /* live_todayscoreboard.json in Resources */,
 				15960B7F291D65A100D4034E /* boxscore.json in Resources */,
@@ -363,6 +372,7 @@
 				150764D329128A0E00B81516 /* ScoreboardModel.swift in Sources */,
 				15960B7D291D657A00D4034E /* BoxscoreModel.swift in Sources */,
 				15345E422955986C000A30B3 /* ScoreboardV3View.swift in Sources */,
+				1571F9AC29854F4D00AF787E /* StandingsModel.swift in Sources */,
 				157E512E29334E58007BD3B9 /* AppMainView.swift in Sources */,
 				150764D72912972A00B81516 /* ScoreboardV2Model.swift in Sources */,
 				15551B46292A1261007A9898 /* ScoreboardV2View.swift in Sources */,

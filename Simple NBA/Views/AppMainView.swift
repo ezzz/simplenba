@@ -21,7 +21,8 @@ struct AppMainView: View {
                 .tabItem {
                     Label("Schedule", systemImage: "calendar.circle")
                 }
-            Text("TBD...")
+            StandingsView()
+                .environmentObject(Standings())
                 .tabItem {
                     Label("Standings", systemImage: "list.bullet.circle")
                 }
